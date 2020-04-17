@@ -14,7 +14,13 @@ const burger = ({ ingredients }) => {
     });
   });
 
-  return <div className={classes.Burger}>{transformIngredients}</div>;
+  return (
+    <div className={classes.Burger}>
+      <BurgerIngredient type="bread-top" />
+      {transformIngredients}
+      <BurgerIngredient type="bread-bottom" />
+    </div>
+  );
 };
 
 export default burger;
