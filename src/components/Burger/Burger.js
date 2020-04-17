@@ -18,6 +18,10 @@ const burger = ({ ingredients }) => {
       return arr.concat(el);
     }, []);
 
+  if (transformIngredients.length === 0) {
+    transformIngredients = <p> Please Start Adding Ingredients </p>;
+  }
+
   return (
     <div className={classes.Burger}>
       <BurgerIngredient type="bread-top" />
