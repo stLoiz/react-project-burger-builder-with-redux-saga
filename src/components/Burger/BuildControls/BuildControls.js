@@ -44,6 +44,7 @@ const buildControls = ({
           disabled={disabled[control.type]}
         />
       ))}
+      <button className={classes.OrderButton}>ORDER NOW</button>
     </div>
   );
 };
