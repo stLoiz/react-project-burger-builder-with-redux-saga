@@ -22,7 +22,7 @@ const controls = [
   },
 ];
 
-const buildControls = ({ ingredientAdded }) => {
+const buildControls = ({ ingredientAdded, ingredientRemoved }) => {
   return (
     <div className={classes.BuildControls}>
       {controls.map((control) => (
@@ -30,6 +30,9 @@ const buildControls = ({ ingredientAdded }) => {
           key={control.label}
           label={control.label}
           added={() => ingredientAdded(control.type)}
+          removed={() => {
+            ingredientRemoved(control.type);
+          }}
         />
       ))}
     </div>
