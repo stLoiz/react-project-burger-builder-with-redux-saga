@@ -1,15 +1,15 @@
 .SideDrawer {
-  position: fixed;
-  width: 280px;
-  max-width: 70%;
+  background-color: white;
+  box-sizing: border-box;
   height: 100%;
   left: 0;
-  top: 0;
-  z-index: 200;
-  background-color: white;
+  max-width: 70%;
   padding: 32px 16px;
-  box-sizing: border-box;
+  position: fixed;
+  top: 0;
   transition: transform 0.3s ease-out;
+  width: 280px;
+  z-index: 200;
 }
 
 @media (min-width: 500px) {
@@ -28,4 +28,5 @@
 
 .Logo {
   height: 11%;
+  margin-bottom: 32px;
 }
