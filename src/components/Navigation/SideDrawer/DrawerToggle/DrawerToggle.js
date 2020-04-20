@@ -1,5 +1,13 @@
 import React from 'react';
 
-const drawerToggle = ({ clicked }) => <div onClick={clicked}>Menu</div>;
+import classes from './DrawerToggle.module.css';
+
+const drawerToggle = ({ clicked }) => (
+  <div className={classes.DrawerToggle} onClick={clicked}>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+);
 
 export default drawerToggle;
