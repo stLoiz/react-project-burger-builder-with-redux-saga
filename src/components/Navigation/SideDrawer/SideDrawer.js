@@ -6,10 +6,15 @@ import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 
 const sideDrawer = ({ closed, isShown }) => {
+  let attachedClasses = [classes.SideDrawer, classes.Close];
+  if (isShown) {
+    attachedClasses.splice(1, 1, classes.Open);
+  }
+
   return (
     <>
       <Backdrop show={isShown} clicked={closed} />
-      <div className={classes.SideDrawer}>
+      <div className={attachedClasses.join(' ')}>
         <div className={classes.Logo}>
           <Logo />
         </div>
