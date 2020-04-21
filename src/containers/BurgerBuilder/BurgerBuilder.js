@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import axios from '../../axios-orders';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -75,7 +76,29 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    alert('You continue!');
+    const order = {
+      ingredients: this.state.ingredients,
+      // price should be calculated on the server to make sure
+      // that user is not manipulating the code before sending it and manipulates the price
+      price: this.state.totalPrice,
+      //add other dummy data
+      customer: {
+        name: 'Stella',
+        address: {
+          street: 'Teststreet 8',
+          zipCode: '3456',
+          country: 'London',
+        },
+        email: 'tests@test.com',
+      },
+      deliveryMethod: 'fastest',
+    };
+
+    //as we are using firebase for the backend we need to use an endpoint with '.json'
+    axios
+      .post('/orders.json', order)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
   };
 
   render() {
