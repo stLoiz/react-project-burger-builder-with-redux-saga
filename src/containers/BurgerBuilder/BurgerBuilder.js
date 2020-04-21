@@ -17,18 +17,26 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0,
-    },
+    ingredients: null,
     totalPrice: 4,
     purchasable: false,
     purchasing: false,
     loading: false,
+    error: false,
   };
 
+  componentDidMount() {
+    this.setState({ loading: true });
+    axios
+      .get('/ingredients.json')
+      .then((response) => {
+        this.setState({ ingredients: response.data, loading: false });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ error: true, loading: false });
+      });
+  }
   updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
       .map((key) => {
@@ -126,7 +134,8 @@ class BurgerBuilder extends Component {
           modalClosed={this.purchaseCancelHandler}
         >
           {this.state.loading && <Spinner />}
-          {!this.state.loading && (
+
+          {!this.state.loading && this.state.ingredients && (
             <OrderSummary
               ingredients={this.state.ingredients}
               price={this.state.totalPrice}
@@ -135,15 +144,21 @@ class BurgerBuilder extends Component {
             />
           )}
         </Modal>
-        <Burger ingredients={this.state.ingredients}></Burger>
-        <BuildControls
-          disabled={disabledInfo}
-          ingredientAdded={this.addIngredientHandler}
-          ingredientRemoved={this.removeIngredientHandler}
-          ordered={this.purchaseHandler}
-          price={this.state.totalPrice}
-          purchasable={this.state.purchasable}
-        />
+        {this.state.loading && <Spinner />}
+        {this.state.error && <p>Something went wrong</p>}
+        {!this.state.loading && this.state.ingredients && (
+          <>
+            <Burger ingredients={this.state.ingredients}></Burger>
+            <BuildControls
+              disabled={disabledInfo}
+              ingredientAdded={this.addIngredientHandler}
+              ingredientRemoved={this.removeIngredientHandler}
+              ordered={this.purchaseHandler}
+              price={this.state.totalPrice}
+              purchasable={this.state.purchasable}
+            />
+          </>
+        )}
       </>
     );
   }
