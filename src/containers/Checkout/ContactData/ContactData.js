@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
+import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './ContactData.module.css';
 
 class ContactData extends Component {
@@ -55,35 +56,38 @@ class ContactData extends Component {
     return (
       <div className={classes.ContactData}>
         <h4>Enter your Contact Data</h4>
-        <form>
-          <input
-            className={classes.Input}
-            type="text"
-            name="name"
-            placeholder="Your name"
-          />
-          <input
-            className={classes.Input}
-            type="email"
-            name="email"
-            placeholder="Your email"
-          />
-          <input
-            className={classes.Input}
-            type="text"
-            name="street"
-            placeholder="Your street"
-          />
-          <input
-            className={classes.Input}
-            type="text"
-            name="postCode"
-            placeholder="Your post code"
-          />
-          <Button btnType="Success" clicked={this.orderHandler}>
-            Order
-          </Button>
-        </form>
+        {this.state.loading && <Spinner />}
+        {!this.state.loading && (
+          <form>
+            <input
+              className={classes.Input}
+              type="text"
+              name="name"
+              placeholder="Your name"
+            />
+            <input
+              className={classes.Input}
+              type="email"
+              name="email"
+              placeholder="Your email"
+            />
+            <input
+              className={classes.Input}
+              type="text"
+              name="street"
+              placeholder="Your street"
+            />
+            <input
+              className={classes.Input}
+              type="text"
+              name="postCode"
+              placeholder="Your post code"
+            />
+            <Button btnType="Success" clicked={this.orderHandler}>
+              Order
+            </Button>
+          </form>
+        )}
       </div>
     );
   }
