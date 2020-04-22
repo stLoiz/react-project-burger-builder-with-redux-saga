@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
 import classes from './ContactData.module.css';
 
@@ -11,6 +12,43 @@ class ContactData extends Component {
       street: '',
       postCode: '',
     },
+    loading: false,
+  };
+
+  orderHandler = (event) => {
+    // add prevent default to prevent sending the request and reload the page
+    event.preventDefault();
+
+    this.setState({ loading: true });
+    const order = {
+      ingredients: this.props.ingredients,
+      // price should be calculated on the server to make sure
+      // that user is not manipulating the code before sending it and manipulates the price
+      price: this.props.price,
+      //add other dummy data
+      customer: {
+        name: 'Stella',
+        address: {
+          street: 'Teststreet 8',
+          zipCode: '3456',
+          country: 'London',
+        },
+        email: 'tests@test.com',
+      },
+      deliveryMethod: 'fastest',
+    };
+
+    //as we are using firebase for the backend we need to use an endpoint with '.json'
+    axios
+      .post('/orders.json', order)
+      .then((response) => {
+        console.log(response);
+        this.setState({ loading: false });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ loading: false });
+      });
   };
 
   render() {
@@ -42,7 +80,7 @@ class ContactData extends Component {
             name="postCode"
             placeholder="Your post code"
           />
-          <Button btnType="Success" clicked>
+          <Button btnType="Success" clicked={this.orderHandler}>
             Order
           </Button>
         </form>
