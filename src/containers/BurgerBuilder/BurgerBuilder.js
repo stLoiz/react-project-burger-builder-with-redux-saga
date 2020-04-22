@@ -107,16 +107,32 @@ class BurgerBuilder extends Component {
     };
 
     //as we are using firebase for the backend we need to use an endpoint with '.json'
-    axios
-      .post('/orders.json', order)
-      .then((response) => {
-        console.log(response);
-        this.setState({ loading: false, purchasing: false });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({ loading: false, purchasing: false });
-      });
+    // axios
+    //   .post('/orders.json', order)
+    //   .then((response) => {
+    //     console.log(response);
+    //     this.setState({ loading: false, purchasing: false });
+
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     this.setState({ loading: false, purchasing: false });
+    //   });
+
+    //encode ingredients into query params
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          '=' +
+          encodeURIComponent(this.state.ingredients[i]),
+      );
+    }
+    const queryString = queryParams.join('&');
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString,
+    });
   };
 
   render() {
