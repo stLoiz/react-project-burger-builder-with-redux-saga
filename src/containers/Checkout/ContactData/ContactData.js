@@ -15,6 +15,7 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Your name',
         },
+        touched: false,
         value: '',
         validation: {
           required: true,
@@ -27,6 +28,7 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Street',
         },
+        touched: false,
         value: '',
         validation: {
           required: true,
@@ -39,6 +41,7 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Post code',
         },
+        touched: false,
         value: '',
         validation: {
           required: true,
@@ -53,6 +56,7 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Country',
         },
+        touched: false,
         value: '',
         validation: {
           required: true,
@@ -65,6 +69,7 @@ class ContactData extends Component {
           type: 'email',
           placeholder: 'Your email',
         },
+        touched: false,
         value: '',
         validation: {
           required: true,
@@ -139,12 +144,12 @@ class ContactData extends Component {
     //clone deeper in immutable way
     const updatedElementForm = { ...updatedOrderForm[inputIdentifier] };
 
-    updatedElementForm.value = event.target.value;
     updatedElementForm.valid = this.checkValidity(
       updatedElementForm.value,
       updatedElementForm.validation,
     );
-
+    updatedElementForm.value = event.target.value;
+    updatedElementForm.touched = true;
     updatedOrderForm[inputIdentifier] = updatedElementForm;
     console.log(updatedOrderForm);
     this.setState({ orderForm: updatedOrderForm });
@@ -175,6 +180,7 @@ class ContactData extends Component {
                 invalid={!formElement.config.valid}
                 key={formElement.id}
                 shouldValidate={formElement.config.validation}
+                touched={formElement.config.touched}
                 value={formElement.config.value}
               />
             ))}
