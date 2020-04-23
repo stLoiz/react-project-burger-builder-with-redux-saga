@@ -8,11 +8,12 @@ const input = ({
   elementType,
   invalid,
   label,
+  shouldValidate,
   value,
 }) => {
   let inputElement = null;
   const inputClasses = [classes.Input];
-  if (invalid) {
+  if (invalid && shouldValidate) {
     inputClasses.push(classes.Invalid);
   }
 
