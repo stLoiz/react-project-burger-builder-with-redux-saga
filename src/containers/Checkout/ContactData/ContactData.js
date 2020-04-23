@@ -172,6 +172,7 @@ class ContactData extends Component {
                 }
                 elementConfig={formElement.config.elementConfig}
                 elementType={formElement.config.elementType}
+                invalid={!formElement.config.valid}
                 key={formElement.id}
                 value={formElement.config.value}
               />
