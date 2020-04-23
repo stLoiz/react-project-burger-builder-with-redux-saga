@@ -68,11 +68,19 @@ class ContactData extends Component {
     event.preventDefault();
 
     this.setState({ loading: true });
+    const formData = {};
+    for (let formElementIdentifier in this.state.orderForm) {
+      formData[formElementIdentifier] = this.state.orderForm[
+        formElementIdentifier
+      ].value;
+    }
+
     const order = {
       ingredients: this.props.ingredients,
       // price should be calculated on the server to make sure
       // that user is not manipulating the code before sending it and manipulates the price
       price: this.props.price,
+      orderData: formData,
     };
 
     //as we are using firebase for the backend we need to use an endpoint with '.json'
@@ -113,7 +121,7 @@ class ContactData extends Component {
         <h4>Enter your Contact Data</h4>
         {this.state.loading && <Spinner />}
         {!this.state.loading && (
-          <form>
+          <form onSubmit={this.orderHandler}>
             {formElementsArray.map((formElement) => (
               <Input
                 changed={(event) =>
@@ -126,9 +134,7 @@ class ContactData extends Component {
               />
             ))}
 
-            <Button btnType="Success" clicked={this.orderHandler}>
-              Order
-            </Button>
+            <Button btnType="Success">Order</Button>
           </form>
         )}
       </div>
