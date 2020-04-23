@@ -8,11 +8,57 @@ import classes from './ContactData.module.css';
 
 class ContactData extends Component {
   state = {
-    name: '',
-    email: '',
-    address: {
-      street: '',
-      postCode: '',
+    orderForm: {
+      name: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Your name',
+        },
+        value: '',
+      },
+      street: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Street',
+        },
+        value: '',
+      },
+      zipCode: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Post code',
+        },
+        value: '',
+      },
+      country: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Country',
+        },
+        value: '',
+      },
+      email: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'email',
+          placeholder: 'Your email',
+        },
+        value: '',
+      },
+      deliveryMethod: {
+        elementType: 'select',
+        elementConfig: {
+          options: [
+            { value: 'fastest', displayValue: 'Fastest' },
+            { value: 'cheapest', displayValue: 'Cheapest' },
+          ],
+        },
+        value: '',
+      },
     },
     loading: false,
   };
@@ -27,17 +73,6 @@ class ContactData extends Component {
       // price should be calculated on the server to make sure
       // that user is not manipulating the code before sending it and manipulates the price
       price: this.props.price,
-      //add other dummy data
-      customer: {
-        name: 'Stella',
-        address: {
-          street: 'Teststreet 8',
-          zipCode: '3456',
-          country: 'London',
-        },
-        email: 'tests@test.com',
-      },
-      deliveryMethod: 'fastest',
     };
 
     //as we are using firebase for the backend we need to use an endpoint with '.json'
@@ -55,40 +90,30 @@ class ContactData extends Component {
   };
 
   render() {
+    const formElementsArray = [];
+    for (let key in this.state.orderForm) {
+      formElementsArray.push({
+        id: key,
+        config: this.state.orderForm[key],
+      });
+    }
+
+    // console.log(formElementsArray);
     return (
       <div className={classes.ContactData}>
         <h4>Enter your Contact Data</h4>
         {this.state.loading && <Spinner />}
         {!this.state.loading && (
           <form>
-            <Input
-              label="Name"
-              inputtype="input"
-              type="text"
-              name="name"
-              placeholder="Your name"
-            />
-            <Input
-              label="Email"
-              inputtype="input"
-              type="email"
-              name="email"
-              placeholder="Your email"
-            />
-            <Input
-              label="Street"
-              inputtype="input"
-              type="text"
-              name="street"
-              placeholder="Your street"
-            />
-            <Input
-              label="Post Code"
-              inputtype="input"
-              type="text"
-              name="postCode"
-              placeholder="Your post code"
-            />
+            {formElementsArray.map((formElement) => (
+              <Input
+                key={formElement.id}
+                elementType={formElement.config.elementType}
+                elementConfig={formElement.config.elementConfig}
+                value={formElement.config.value}
+              />
+            ))}
+
             <Button btnType="Success" clicked={this.orderHandler}>
               Order
             </Button>
