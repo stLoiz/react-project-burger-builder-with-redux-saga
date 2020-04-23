@@ -88,7 +88,16 @@ class ContactData extends Component {
         this.setState({ loading: false });
       });
   };
+  inputChangeHandler = (event, inputIdentifier) => {
+    //clone in immutable way by using spread
+    const updatedOrderForm = { ...this.state.orderForm };
+    //clone deeper in immutable way
+    const updatedElementForm = { ...updatedOrderForm[inputIdentifier] };
 
+    updatedElementForm.value = event.target.value;
+    updatedOrderForm[inputIdentifier] = updatedElementForm;
+    this.setState({ orderForm: updatedOrderForm });
+  };
   render() {
     const formElementsArray = [];
     for (let key in this.state.orderForm) {
@@ -107,9 +116,12 @@ class ContactData extends Component {
           <form>
             {formElementsArray.map((formElement) => (
               <Input
-                key={formElement.id}
-                elementType={formElement.config.elementType}
+                changed={(event) =>
+                  this.inputChangeHandler(event, formElement.id)
+                }
                 elementConfig={formElement.config.elementConfig}
+                elementType={formElement.config.elementType}
+                key={formElement.id}
                 value={formElement.config.value}
               />
             ))}
