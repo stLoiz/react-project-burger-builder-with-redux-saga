@@ -3,7 +3,7 @@ import * as actionTypes from './actions';
 const initialState = {
   ingredients: {
     salad: 0,
-    beacon: 0,
+    bacon: 0,
     meat: 0,
     cheese: 0,
   },
@@ -15,23 +15,23 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_INGREDIENT:
       return {
         ...state,
-        ingredients= {
-            ...state.ingredients,
-            [action.ingredientName]: state.ingredients[ingredientName] + 1,
-        }
-        
+        ingredients: {
+          ...state.ingredients,
+          [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+        },
       };
     case actionTypes.REMOVE_INGREDIENT:
       return {
         ...state,
-        ingredients= {
-            ...state.ingredients,
-            [action.ingredientName]: state.ingredients[ingredientName] - 1,
-        }
+        ingredients: {
+          ...state.ingredients,
+          [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
+        },
       };
-  }
 
-  return state;
+    default:
+      return state;
+  }
 };
 
 export default reducer;
