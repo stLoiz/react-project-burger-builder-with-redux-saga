@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import * as actionTypes from '../../store/actions';
 import axios from '../../axios-orders';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -26,16 +28,16 @@ class BurgerBuilder extends Component {
   };
 
   componentDidMount() {
-    this.setState({ loading: true });
-    axios
-      .get('/ingredients.json')
-      .then((response) => {
-        this.setState({ ingredients: response.data, loading: false });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({ error: true, loading: false });
-      });
+    // this.setState({ loading: true });
+    // axios
+    //   .get('/ingredients.json')
+    //   .then((response) => {
+    //     this.setState({ ingredients: response.data, loading: false });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     this.setState({ error: true, loading: false });
+    //   });
   }
   updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
@@ -148,5 +150,25 @@ class BurgerBuilder extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients,
+  };
+};
 
-export default withErrorHandler(BurgerBuilder, axios);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onIngredientAdded: (ingName) =>
+      dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
+    onIngredientRemoved: (ingName) =>
+      dispatch({
+        type: actionTypes.REMOVE_INGREDIENT,
+        ingredientName: ingName,
+      }),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withErrorHandler(BurgerBuilder, axios));
