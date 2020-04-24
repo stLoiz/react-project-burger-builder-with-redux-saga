@@ -19,7 +19,6 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: null,
     totalPrice: 4,
     purchasable: false,
     purchasing: false,
@@ -108,7 +107,7 @@ class BurgerBuilder extends Component {
 
   render() {
     const disabledInfo = {
-      ...this.state.ingredients,
+      ...this.props.ings,
     };
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
@@ -122,9 +121,9 @@ class BurgerBuilder extends Component {
         >
           {this.state.loading && <Spinner />}
 
-          {!this.state.loading && this.state.ingredients && (
+          {!this.state.loading && this.props.ings && (
             <OrderSummary
-              ingredients={this.state.ingredients}
+              ingredients={this.props.ings}
               price={this.state.totalPrice}
               purchasedCancelled={this.purchaseCancelHandler}
               purchasedContinued={this.purchaseContinueHandler}
@@ -133,13 +132,13 @@ class BurgerBuilder extends Component {
         </Modal>
         {this.state.loading && <Spinner />}
         {this.state.error && <p>Something went wrong</p>}
-        {!this.state.loading && this.state.ingredients && (
+        {!this.state.loading && this.props.ings && (
           <>
-            <Burger ingredients={this.state.ingredients}></Burger>
+            <Burger ingredients={this.props.ings}></Burger>
             <BuildControls
               disabled={disabledInfo}
-              ingredientAdded={this.addIngredientHandler}
-              ingredientRemoved={this.removeIngredientHandler}
+              ingredientAdded={this.props.onIngredientAdded}
+              ingredientRemoved={this.props.onIngredientRemoved}
               ordered={this.purchaseHandler}
               price={this.state.totalPrice}
               purchasable={this.state.purchasable}
