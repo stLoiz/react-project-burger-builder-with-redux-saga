@@ -11,10 +11,14 @@ const input = ({
   shouldValidate,
   touched,
   value,
+  // errorMessage,
 }) => {
   let inputElement = null;
+
   const inputClasses = [classes.Input];
+  // let validationError = null;
   if (invalid && shouldValidate && touched) {
+    // validationError = <p className={classes.ValidationError}>{errorMessage}</p>;
     inputClasses.push(classes.Invalid);
   }
 
@@ -71,6 +75,7 @@ const input = ({
     <div className={classes.Input}>
       <label className={classes.Label}>{label}</label>
       {inputElement}
+      {/* {validationError} */}
     </div>
   );
 };

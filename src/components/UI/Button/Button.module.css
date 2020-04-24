@@ -22,3 +22,29 @@
 .Danger {
   color: #944317;
 }
+
+.Button:hover,
+.Button:active {
+  color: #966909;
+}
+
+.Button:disabled {
+  cursor: not-allowed;
+  color: #888888;
+}
+
+.Button:not(:disabled) {
+  animation: enable 0.3s linear;
+}
+
+@keyframes enable {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
