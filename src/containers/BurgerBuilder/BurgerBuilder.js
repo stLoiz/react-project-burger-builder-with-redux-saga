@@ -12,7 +12,6 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 
 class BurgerBuilder extends Component {
   state = {
-    purchasable: false,
     purchasing: false,
     loading: false,
     error: false,
@@ -30,18 +29,16 @@ class BurgerBuilder extends Component {
     //     this.setState({ error: true, loading: false });
     //   });
   }
-  updatePurchaseState = (ingredients) => {
-    const sum = Object.keys(ingredients)
+  updatePurchaseState = () => {
+    const sum = Object.keys(this.props.ings)
       .map((key) => {
-        return ingredients[key];
+        return this.props.ings[key];
       })
       .reduce((sum, el) => {
         return sum + el;
       }, 0);
 
-    this.setState({
-      purchasable: sum > 0,
-    });
+    return sum > 0;
   };
 
   // addIngredientHandler = (type) => {
@@ -133,7 +130,7 @@ class BurgerBuilder extends Component {
               ingredientRemoved={this.props.onIngredientRemoved}
               ordered={this.purchaseHandler}
               price={this.props.totalPrice}
-              purchasable={this.state.purchasable}
+              purchasable={this.updatePurchaseState()}
             />
           </>
         )}
