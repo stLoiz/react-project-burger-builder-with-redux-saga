@@ -13,11 +13,10 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: false,
   };
 
   componentDidMount() {
+    this.props.onInitIngredients();
     // this.setState({ loading: true });
     // axios
     //   .get('/ingredients.json')
@@ -109,9 +108,7 @@ class BurgerBuilder extends Component {
           show={this.state.purchasing}
           modalClosed={this.purchaseCancelHandler}
         >
-          {this.state.loading && <Spinner />}
-
-          {!this.state.loading && this.props.ings && (
+          {this.props.ings && (
             <OrderSummary
               ingredients={this.props.ings}
               price={this.props.totalPrice}
@@ -120,9 +117,9 @@ class BurgerBuilder extends Component {
             />
           )}
         </Modal>
-        {this.state.loading && <Spinner />}
-        {this.state.error && <p>Something went wrong</p>}
-        {!this.state.loading && this.props.ings && (
+
+        {this.props.error && <p>Something went wrong</p>}
+        {this.props.ings && (
           <>
             <Burger ingredients={this.props.ings}></Burger>
             <BuildControls
@@ -143,11 +140,13 @@ const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
     totalPrice: state.totalPrice,
+    error: state.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onInitIngredients: () => dispatch(actionCreators.initIngredients()),
     onIngredientAdded: (ingName) =>
       dispatch(actionCreators.addIngredient(ingName)),
     onIngredientRemoved: (ingName) =>
