@@ -17,16 +17,6 @@ class BurgerBuilder extends Component {
 
   componentDidMount() {
     this.props.onInitIngredients();
-    // this.setState({ loading: true });
-    // axios
-    //   .get('/ingredients.json')
-    //   .then((response) => {
-    //     this.setState({ ingredients: response.data, loading: false });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     this.setState({ error: true, loading: false });
-    //   });
   }
   updatePurchaseState = () => {
     const sum = Object.keys(this.props.ings)
@@ -39,33 +29,6 @@ class BurgerBuilder extends Component {
 
     return sum > 0;
   };
-
-  // addIngredientHandler = (type) => {
-  //   const oldCount = this.state.ingredients[type];
-  //   const updatedCount = oldCount + 1;
-  //   const updatedIngredients = {
-  //     ...this.state.ingredients,
-  //   };
-  //   updatedIngredients[type] = updatedCount;
-  //   const newPrice = INGREDIENT_PRICES[type] + this.state.totalPrice;
-  //   this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
-
-  // removeIngredientHandler = (type) => {
-  //   const oldCount = this.state.ingredients[type];
-  //   if (oldCount <= 0) {
-  //     return;
-  //   }
-  //   const updatedCount = oldCount - 1;
-  //   const updatedIngredients = {
-  //     ...this.state.ingredients,
-  //   };
-  //   updatedIngredients[type] = updatedCount;
-  //   const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
-  //   this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
 
   purchaseHandler = () => {
     this.setState({ purchasing: true });
@@ -138,9 +101,9 @@ class BurgerBuilder extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredients,
-    totalPrice: state.totalPrice,
-    error: state.error,
+    ings: state.burgerBuilder.ingredients,
+    totalPrice: state.burgerBuilder.totalPrice,
+    error: state.burgerBuilder.error,
   };
 };
 
