@@ -40,6 +40,7 @@ class Auth extends Component {
     },
     isSignup: true,
   };
+
   checkValidity(value, rules) {
     let isValid = true;
     if (!rules) {
@@ -138,10 +139,14 @@ class Auth extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return { token: state.auth.token };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, isSignup) =>
       dispatch(actionCreators.auth(email, password, isSignup)),
   };
 };
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
