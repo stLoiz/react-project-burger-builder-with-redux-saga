@@ -30,7 +30,7 @@ export const auth = (email, password, isSignup) => {
       password: password,
       returnSecureToken: true,
     };
-    console.log(process.env.REACT_APP_FIREBASE_SIGN_UP_URL);
+
     let url = process.env.REACT_APP_FIREBASE_SIGN_UP_URL;
 
     if (!isSignup) {
@@ -43,7 +43,7 @@ export const auth = (email, password, isSignup) => {
         dispatch(authSuccess(res.data.idToken, res.data.localId));
       })
       .catch((error) => {
-        dispatch(authFail(error));
+        dispatch(authFail(error.response.data.error));
       });
   };
 };
