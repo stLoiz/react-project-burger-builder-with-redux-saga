@@ -18,7 +18,6 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Your name',
         },
-        error: '',
         touched: false,
         value: '',
         validation: {
@@ -32,7 +31,6 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Street',
         },
-        error: '',
         touched: false,
         value: '',
         validation: {
@@ -46,13 +44,13 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Post code',
         },
-        error: '',
         touched: false,
         value: '',
         validation: {
           required: true,
           minLength: 5,
-          maxLength: 9,
+          maxLength: 5,
+          isNumeric: true,
         },
         valid: false,
       },
@@ -62,7 +60,6 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Country',
         },
-        error: '',
         touched: false,
         value: '',
         validation: {
@@ -76,11 +73,11 @@ class ContactData extends Component {
           type: 'email',
           placeholder: 'Your email',
         },
-        error: '',
         touched: false,
         value: '',
         validation: {
           required: true,
+          isEmail: true,
         },
         valid: false,
       },
@@ -117,12 +114,16 @@ class ContactData extends Component {
       // that user is not manipulating the code before sending it and manipulates the price
       price: this.props.totalPrice,
       orderData: formData,
+      userId: this.props.userId,
     };
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
   };
 
   checkValidity(value, rules) {
     let isValid = true;
+    if (!rules) {
+      return true;
+    }
 
     if (rules.required) {
       isValid = value.trim() !== '' && isValid;
@@ -131,11 +132,24 @@ class ContactData extends Component {
     if (rules.minLength) {
       isValid = value.length >= rules.minLength && isValid;
     }
+
     if (rules.maxLength) {
       isValid = value.length <= rules.maxLength && isValid;
     }
+
+    if (rules.isEmail) {
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isNumeric) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(value) && isValid;
+    }
+
     return isValid;
   }
+
   inputChangeHandler = (event, inputIdentifier) => {
     //clone in immutable way by using spread
     const updatedOrderForm = { ...this.state.orderForm };
@@ -203,13 +217,15 @@ const mapStateToProps = (state) => {
     ings: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
+    token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (orderData) =>
-      dispatch(actionCreators.purchaseBurger(orderData)),
+    onOrderBurger: (orderData, token) =>
+      dispatch(actionCreators.purchaseBurger(orderData, token)),
   };
 };
 export default connect(

@@ -5,7 +5,7 @@ import classes from './Toolbar.module.css';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 
-const toolbar = ({ drawerToggleClicked }) => (
+const toolbar = ({ drawerToggleClicked, isAuth }) => (
   <header className={classes.Toolbar}>
     <DrawerToggle clicked={drawerToggleClicked} />
     <div className={classes.Logo}>
@@ -13,7 +13,7 @@ const toolbar = ({ drawerToggleClicked }) => (
     </div>
 
     <nav className={classes.DesktopOnly}>
-      <NavigationItems />
+      <NavigationItems isAuthenticated={isAuth} />
     </nav>
   </header>
 );

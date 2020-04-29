@@ -24,6 +24,7 @@ const controls = [
 
 const buildControls = ({
   disabled,
+  isAuth,
   ingredientAdded,
   ingredientRemoved,
   ordered,
@@ -51,7 +52,7 @@ const buildControls = ({
         disabled={!purchasable}
         onClick={ordered}
       >
-        ORDER NOW
+        {isAuth ? 'ORDER NOW' : 'SIGN UP TO ORDER'}
       </button>
     </div>
   );
