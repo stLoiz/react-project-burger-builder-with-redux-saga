@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import axios from '../../../axios-orders';
+import { updateObject } from '../../../helpers/utility';
 import Button from '../../../components/UI/Button/Button';
 import Input from '../../../components/UI/Input/Input';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -151,19 +152,20 @@ class ContactData extends Component {
   }
 
   inputChangeHandler = (event, inputIdentifier) => {
-    //clone in immutable way by using spread
-    const updatedOrderForm = { ...this.state.orderForm };
-    //clone deeper in immutable way
-    const updatedElementForm = { ...updatedOrderForm[inputIdentifier] };
-
-    updatedElementForm.valid = this.checkValidity(
-      updatedElementForm.value,
-      updatedElementForm.validation,
+    const updatedElementForm = updateObject(
+      this.state.orderForm[inputIdentifier],
+      {
+        valid: this.checkValidity(
+          event.target.value,
+          this.state.orderForm[inputIdentifier].validation,
+        ),
+        value: event.target.value,
+        touched: true,
+      },
     );
-
-    updatedElementForm.value = event.target.value;
-    updatedElementForm.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedElementForm;
+    const updatedOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updatedElementForm,
+    });
 
     let formIsValid = true;
     for (let inputIdentifier in updatedOrderForm) {
