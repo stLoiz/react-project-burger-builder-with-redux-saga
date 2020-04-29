@@ -5,7 +5,7 @@ import classes from './SideDrawer.module.css';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 
-const sideDrawer = ({ closed, isShown }) => {
+const sideDrawer = ({ closed, isShown, isAuth }) => {
   let attachedClasses = [classes.SideDrawer, classes.Close];
   if (isShown) {
     attachedClasses.splice(1, 1, classes.Open);
@@ -20,7 +20,7 @@ const sideDrawer = ({ closed, isShown }) => {
         </div>
 
         <nav>
-          <NavigationItems />
+          <NavigationItems isAuthenticated={isAuth} />
         </nav>
       </div>
     </>
