@@ -151,7 +151,6 @@ class ContactData extends Component {
       });
     }
 
-    // console.log(formElementsArray);
     return (
       <div className={classes.ContactData}>
         <h4>Enter your Contact Data</h4>
