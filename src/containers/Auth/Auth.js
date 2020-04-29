@@ -132,7 +132,9 @@ class Auth extends Component {
     return (
       <div className={classes.Auth}>
         {this.props.loading && <Spinner />}
-        {this.props.isAuthenticated && <Redirect to="/" />}
+        {this.props.isAuthenticated && (
+          <Redirect to={this.props.authRedirectPath} />
+        )}
         {!this.props.loading && this.props.error && (
           <p>{this.props.error.message}</p>
         )}
@@ -157,6 +159,8 @@ const mapStateToProps = (state) => {
     loading: state.auth.loading,
     error: state.auth.error,
     isAuthenticated: state.auth.token !== null,
+    isBurgerBuilt: state.burgerBuilder.isBurgerBuilt,
+    authRedirectPath: state.auth.authRedirectPath,
   };
 };
 
