@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
@@ -106,6 +107,7 @@ class Auth extends Component {
       return { isSignup: !prevState.isSignup };
     });
   };
+
   render() {
     const formElementsArray = [];
     for (let key in this.state.controls) {
@@ -130,6 +132,7 @@ class Auth extends Component {
     return (
       <div className={classes.Auth}>
         {this.props.loading && <Spinner />}
+        {this.props.isAuthenticated && <Redirect to="/" />}
         {!this.props.loading && this.props.error && (
           <p>{this.props.error.message}</p>
         )}
@@ -151,9 +154,9 @@ class Auth extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    token: state.auth.token,
     loading: state.auth.loading,
     error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
   };
 };
 
