@@ -44,6 +44,11 @@ class Auth extends Component {
     isSignup: true,
   };
 
+  componentDidMount() {
+    if (!this.props.isBurgerBuilt && this.props.authRedirectPath !== '/') {
+      this.props.onSetAuthRedirectPath();
+    }
+  }
   checkValidity(value, rules) {
     let isValid = true;
     if (!rules) {
@@ -168,6 +173,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, isSignup) =>
       dispatch(actionCreators.auth(email, password, isSignup)),
+    onSetAuthRedirectPath: () =>
+      dispatch(actionCreators.setAuthRedirectPath('/')),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);
