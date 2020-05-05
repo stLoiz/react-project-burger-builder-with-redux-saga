@@ -18,10 +18,10 @@ const Checkout = React.lazy(() => {
   return import('./containers/Checkout/Checkout');
 });
 
-const App = (props) => {
+const App = ({ onCheckAuthState, isAuthenticated }) => {
   useEffect(() => {
-    props.onCheckAuthState();
-  }, []);
+    onCheckAuthState();
+  }, [onCheckAuthState]);
 
   let routes = (
     <Switch>
@@ -31,7 +31,7 @@ const App = (props) => {
     </Switch>
   );
 
-  if (props.isAuthenticated) {
+  if (isAuthenticated) {
     routes = (
       <Switch>
         <Route path="/checkout" render={() => <Checkout />} />
