@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NavigationItems/> should match default snapshot on render 1`] = `
+<ul
+  className="NavigationItems"
+>
+  <navigationItem
+    exact={true}
+    link="/"
+  >
+    Burger Builder
+  </navigationItem>
+  <navigationItem
+    link="/orders"
+  >
+    Orders
+  </navigationItem>
+  <navigationItem
+    link="/logout"
+  >
+    Logout
+  </navigationItem>
+</ul>
+`;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import classes from './NavigationItems.module.css';
@@ -19,5 +20,12 @@ const navigationItems = ({ isAuthenticated }) => (
     )}
   </ul>
 );
+
+navigationItems.propTypes = {
+  /*
+   * bool showing if the user is logged in or not
+   */
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
 export default navigationItems;
