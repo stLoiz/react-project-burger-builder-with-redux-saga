@@ -1,13 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Burger from '../../Burger/Burger';
 import Button from '../../UI/Button/Button';
 import classes from './CheckoutSummary.module.css';
 
-const checkoutSummary = ({
-  ingredients,
+const CheckoutSummary = ({
   checkoutCancelled,
   checkoutContinued,
+  ingredients,
 }) => {
   return (
     <div className={classes.CheckoutSummary}>
@@ -25,4 +26,14 @@ const checkoutSummary = ({
   );
 };
 
-export default checkoutSummary;
+CheckoutSummary.propTypes = {
+  checkoutCancelled: PropTypes.func.isRequired,
+  checkoutContinued: PropTypes.func.isRequired,
+  ingredients: PropTypes.shape({
+    salad: PropTypes.number,
+    meat: PropTypes.number,
+    bacon: PropTypes.number,
+    cheese: PropTypes.number,
+  }).isRequired,
+};
+export default CheckoutSummary;

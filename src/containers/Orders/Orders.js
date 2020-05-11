@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -42,6 +43,37 @@ const mapDispatchToProps = (dispatch) => {
     onFetchOrders: (token, userId) =>
       dispatch(actionCreators.fetchOrders(token, userId)),
   };
+};
+
+Orders.defaultProps = {
+  loading: false,
+  orders: [],
+};
+Orders.propTypes = {
+  loading: PropTypes.bool,
+  onFetchOrders: PropTypes.func.isRequired,
+  orders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      ingredients: PropTypes.shape({
+        salad: PropTypes.number,
+        meat: PropTypes.number,
+        cheese: PropTypes.number,
+        bacon: PropTypes.number,
+      }),
+      price: PropTypes.number,
+    }),
+  ),
+
+  /*
+   * Token of the user
+   */
+  token: PropTypes.string.isRequired,
+
+  /*
+   * User id use to fetch the orders for this specific user
+   */
+  userId: PropTypes.string.isRequired,
 };
 export default connect(
   mapStateToProps,

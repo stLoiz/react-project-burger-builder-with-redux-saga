@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import * as actionCreators from '../../store/actions/index.js';
+import * as actionCreators from '../../store/actions/index';
 import axios from '../../axios-orders';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -9,7 +10,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import Modal from '../../components/UI/Modal/Modal';
 
-const BurgerBuilder = (props) => {
+const BurgerBuilder = ({ history }) => {
   const [purchasing, setPurchasing] = useState(false);
   const dispatch = useDispatch();
   const ings = useSelector((state) => {
@@ -45,8 +46,8 @@ const BurgerBuilder = (props) => {
       .map((key) => {
         return ingredients[key];
       })
-      .reduce((sum, el) => {
-        return sum + el;
+      .reduce((sumAcc, el) => {
+        return sumAcc + el;
       }, 0);
 
     return sum > 0;
@@ -57,7 +58,7 @@ const BurgerBuilder = (props) => {
       setPurchasing(true);
     } else {
       onSetAuthRedirectPath('/checkout');
-      props.history.push('/auth');
+      history.push('/auth');
     }
   };
 
@@ -67,15 +68,15 @@ const BurgerBuilder = (props) => {
 
   const purchaseContinueHandler = () => {
     onInitPurchase();
-    props.history.push('/checkout');
+    history.push('/checkout');
   };
 
   const disabledInfo = {
     ...ings,
   };
-  for (let key in disabledInfo) {
+  Object.keys(disabledInfo).forEach((key) => {
     disabledInfo[key] = disabledInfo[key] <= 0;
-  }
+  });
 
   return (
     <>
@@ -93,7 +94,7 @@ const BurgerBuilder = (props) => {
       {error && <p>Something went wrong</p>}
       {ings && (
         <>
-          <Burger ingredients={ings}></Burger>
+          <Burger ingredients={ings} />
           <BuildControls
             disabled={disabledInfo}
             isAuth={isAuthenticated}
@@ -108,5 +109,12 @@ const BurgerBuilder = (props) => {
     </>
   );
 };
-
+BurgerBuilder.propTypes = {
+  /*
+   * Routing props
+   */
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 export default withErrorHandler(BurgerBuilder, axios);

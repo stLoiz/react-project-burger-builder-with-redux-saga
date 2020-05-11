@@ -4,21 +4,23 @@ exports[`<NavigationItems/> should match default snapshot on render 1`] = `
 <ul
   className="NavigationItems"
 >
-  <navigationItem
+  <NavigationItem
     exact={true}
     link="/"
   >
     Burger Builder
-  </navigationItem>
-  <navigationItem
+  </NavigationItem>
+  <NavigationItem
+    exact={false}
     link="/orders"
   >
     Orders
-  </navigationItem>
-  <navigationItem
+  </NavigationItem>
+  <NavigationItem
+    exact={false}
     link="/logout"
   >
     Logout
-  </navigationItem>
+  </NavigationItem>
 </ul>
 `;

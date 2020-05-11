@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -5,31 +6,28 @@ import { connect } from 'react-redux';
 import ContactData from './ContactData/ContactData';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
-const Checkout = (props) => {
+const Checkout = ({ history, ings, purchased, match }) => {
   const checkoutCancelHandler = () => {
-    props.history.goBack();
+    history.goBack();
   };
 
   const checkoutContinueHandler = () => {
-    props.history.replace('/checkout/contact-data');
+    history.replace('/checkout/contact-data');
   };
 
   let summary = <Redirect to="/" />;
-  if (props.ings) {
-    const purchasedRedirect = props.purchased ? <Redirect to="/" /> : null;
+  if (ings) {
+    const purchasedRedirect = purchased ? <Redirect to="/" /> : null;
     summary = (
       <>
         {purchasedRedirect}
         <CheckoutSummary
-          ingredients={props.ings}
+          ingredients={ings}
           checkoutCancelled={checkoutCancelHandler}
           checkoutContinued={checkoutContinueHandler}
         />
 
-        <Route
-          path={props.match.path + '/contact-data'}
-          component={ContactData}
-        />
+        <Route path={`${match.path}/contact-data`} component={ContactData} />
       </>
     );
   }
@@ -41,5 +39,18 @@ const mapStateToProps = (state) => {
     ings: state.burgerBuilder.ingredients,
     purchased: state.order.purchased,
   };
+};
+
+Checkout.propTypes = {
+  /*
+   * Routing props
+   */
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+    replace: PropTypes.func,
+  }).isRequired,
+  match: PropTypes.shape({
+    path: PropTypes.string,
+  }).isRequired,
 };
 export default connect(mapStateToProps)(Checkout);

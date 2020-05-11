@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import BuildControl from './BuildControl/BuildControl';
@@ -22,7 +23,7 @@ const controls = [
   },
 ];
 
-const buildControls = ({
+const BuildControls = ({
   disabled,
   isAuth,
   ingredientAdded,
@@ -34,7 +35,8 @@ const buildControls = ({
   return (
     <div className={classes.BuildControls}>
       <p>
-        Current Price: <strong>{price.toFixed(2)}</strong>
+        Current Price:
+        <strong>{price.toFixed(2)}</strong>
       </p>
       {controls.map((control) => (
         <BuildControl
@@ -48,6 +50,7 @@ const buildControls = ({
         />
       ))}
       <button
+        type="button"
         className={classes.OrderButton}
         disabled={!purchasable}
         onClick={ordered}
@@ -57,5 +60,21 @@ const buildControls = ({
     </div>
   );
 };
-
-export default buildControls;
+BuildControls.defaultProps = {
+  price: 4,
+};
+BuildControls.propTypes = {
+  disabled: PropTypes.shape({
+    bacon: PropTypes.bool,
+    cheese: PropTypes.bool,
+    meat: PropTypes.bool,
+    salad: PropTypes.bool,
+  }).isRequired,
+  ingredientAdded: PropTypes.func.isRequired,
+  ingredientRemoved: PropTypes.func.isRequired,
+  isAuth: PropTypes.bool.isRequired,
+  ordered: PropTypes.func.isRequired,
+  price: PropTypes.number,
+  purchasable: PropTypes.bool.isRequired,
+};
+export default BuildControls;

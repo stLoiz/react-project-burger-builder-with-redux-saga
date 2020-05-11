@@ -10,9 +10,9 @@ export default (httpClient) => {
 
   const resInterceptor = httpClient.interceptors.response.use(
     (res) => res,
-    (error) => {
-      setError(error);
-      return Promise.reject(error);
+    (err) => {
+      setError(err);
+      return Promise.reject(err);
     },
   );
 
@@ -21,7 +21,7 @@ export default (httpClient) => {
       httpClient.interceptors.response.eject(resInterceptor);
       httpClient.interceptors.request.eject(reqInterceptor);
     };
-  }, [resInterceptor, reqInterceptor]);
+  }, [httpClient, resInterceptor, reqInterceptor]);
 
   const errorConfirmedHandler = () => {
     setError(null);

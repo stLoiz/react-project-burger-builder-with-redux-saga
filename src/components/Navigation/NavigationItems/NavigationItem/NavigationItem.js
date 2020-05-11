@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import classes from './NavigationItem.module.css';
 
-const navigationItem = ({ children, link, exact }) => (
+const NavigationItem = ({ children, link, exact }) => (
   <li className={classes.NavigationItem}>
     <NavLink to={link} activeClassName={classes.active} exact={exact}>
       {children}
@@ -11,4 +12,12 @@ const navigationItem = ({ children, link, exact }) => (
   </li>
 );
 
-export default navigationItem;
+NavigationItem.defaultProps = {
+  exact: false,
+};
+NavigationItem.propTypes = {
+  children: PropTypes.node.isRequired,
+  exact: PropTypes.bool,
+  link: PropTypes.string.isRequired,
+};
+export default NavigationItem;

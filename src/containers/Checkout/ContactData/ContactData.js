@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
@@ -10,7 +11,14 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actionCreators from '../../../store/actions/index';
 import classes from './ContactData.module.css';
 
-const ContactData = (props) => {
+const ContactData = ({
+  ings,
+  totalPrice,
+  userId,
+  onOrderBurger,
+  token,
+  loading,
+}) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [orderForm, setOrderForm] = useState({
@@ -19,6 +27,7 @@ const ContactData = (props) => {
       elementConfig: {
         type: 'text',
         placeholder: 'Your name',
+        id: 'name',
       },
       touched: false,
       value: '',
@@ -32,6 +41,7 @@ const ContactData = (props) => {
       elementConfig: {
         type: 'text',
         placeholder: 'Street',
+        id: 'address',
       },
       touched: false,
       value: '',
@@ -45,6 +55,7 @@ const ContactData = (props) => {
       elementConfig: {
         type: 'text',
         placeholder: 'Post code',
+        id: 'post code',
       },
       touched: false,
       value: '',
@@ -61,6 +72,7 @@ const ContactData = (props) => {
       elementConfig: {
         type: 'text',
         placeholder: 'Country',
+        id: 'country',
       },
       touched: false,
       value: '',
@@ -74,6 +86,7 @@ const ContactData = (props) => {
       elementConfig: {
         type: 'email',
         placeholder: 'Your email',
+        id: 'email',
       },
       touched: false,
       value: '',
@@ -102,19 +115,19 @@ const ContactData = (props) => {
     event.preventDefault();
 
     const formData = {};
-    for (let formElementIdentifier in orderForm) {
+    Object.keys(orderForm).forEach((formElementIdentifier) => {
       formData[formElementIdentifier] = orderForm[formElementIdentifier].value;
-    }
+    });
 
     const order = {
-      ingredients: props.ings,
+      ingredients: ings,
       // price should be calculated on the server to make sure
       // that user is not manipulating the code before sending it and manipulates the price
-      price: props.totalPrice,
+      price: totalPrice,
       orderData: formData,
-      userId: props.userId,
+      userId,
     };
-    props.onOrderBurger(order, props.token);
+    onOrderBurger(order, token);
   };
 
   const inputChangeHandler = (event, inputIdentifier) => {
@@ -130,27 +143,30 @@ const ContactData = (props) => {
       [inputIdentifier]: updatedElementForm,
     });
 
-    let formIsValid = true;
-    for (let inputIdentifier in updatedOrderForm) {
-      formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
-    }
-    setFormIsValid(formIsValid);
+    let isFormValid = true;
+    Object.keys(updatedOrderForm).map((inpIdentifier) => {
+      isFormValid = updatedOrderForm[inpIdentifier].valid && isFormValid;
+      return isFormValid;
+    });
+
+    setFormIsValid(isFormValid);
     setOrderForm(updatedOrderForm);
   };
 
   const formElementsArray = [];
-  for (let key in orderForm) {
+  Object.keys(orderForm).map((key) => {
     formElementsArray.push({
       id: key,
       config: orderForm[key],
     });
-  }
+    return formElementsArray;
+  });
 
   return (
     <div className={classes.ContactData}>
       <h4>Enter your Contact Data</h4>
-      {props.loading && <Spinner />}
-      {!props.loading && (
+      {loading && <Spinner />}
+      {!loading && (
         <form onSubmit={orderHandler}>
           {formElementsArray.map((formElement) => (
             <Input
@@ -165,7 +181,7 @@ const ContactData = (props) => {
             />
           ))}
 
-          <Button btnType="Success" disabled={!formIsValid}>
+          <Button btnType="Success" type="submit" disabled={!formIsValid}>
             Order
           </Button>
         </form>
@@ -189,6 +205,29 @@ const mapDispatchToProps = (dispatch) => {
     onOrderBurger: (orderData, token) =>
       dispatch(actionCreators.purchaseBurger(orderData, token)),
   };
+};
+
+ContactData.defaultProps = {
+  loading: false,
+  ings: null,
+  onOrderBurger: () => {},
+  totalPrice: 4,
+  token: null,
+  userId: null,
+};
+
+ContactData.propTypes = {
+  loading: PropTypes.bool,
+  ings: PropTypes.shape({
+    bacon: PropTypes.number,
+    salad: PropTypes.number,
+    cheese: PropTypes.number,
+    meat: PropTypes.number,
+  }),
+  onOrderBurger: PropTypes.func,
+  totalPrice: PropTypes.number,
+  token: PropTypes.string,
+  userId: PropTypes.string,
 };
 export default connect(
   mapStateToProps,

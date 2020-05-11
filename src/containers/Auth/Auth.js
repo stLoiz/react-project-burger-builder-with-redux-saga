@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -27,6 +28,7 @@ const Auth = ({
       elementConfig: {
         type: 'email',
         placeholder: 'Your email',
+        id: 'email',
       },
       touched: false,
       value: '',
@@ -41,6 +43,7 @@ const Auth = ({
       elementConfig: {
         type: 'password',
         placeholder: 'Your password',
+        id: 'password',
       },
       touched: false,
       value: '',
@@ -84,13 +87,15 @@ const Auth = ({
   };
 
   const formElementsArray = [];
-  for (let key in controls) {
-    formElementsArray.push({
+
+  Object.keys(controls).map((key) => {
+    return formElementsArray.push({
       id: key,
       config: controls[key],
     });
-  }
-  let form = formElementsArray.map((formElement) => (
+  });
+
+  const form = formElementsArray.map((formElement) => (
     <Input
       changed={(event) => inputChangeHandler(event, formElement.id)}
       elementConfig={formElement.config.elementConfig}
@@ -112,10 +117,17 @@ const Auth = ({
         <>
           <form onSubmit={submitHandler}>
             {form}
-            <Button btnType="Success">Submit</Button>
+            <Button type="submit" btnType="Success">
+              Submit
+            </Button>
           </form>
-          <Button clicked={switchAuthModeHandler} btnType="Danger">
-            Switch to {isSignup ? 'Sign in' : 'Sign up'}
+          <Button
+            type="submit"
+            clicked={switchAuthModeHandler}
+            btnType="Danger"
+          >
+            Switch to
+            {isSignup ? 'Sign in' : 'Sign up'}
           </Button>
         </>
       )}
@@ -140,5 +152,23 @@ const mapDispatchToProps = (dispatch) => {
     onSetAuthRedirectPath: () =>
       dispatch(actionCreators.setAuthRedirectPath('/')),
   };
+};
+Auth.defaultProps = {
+  authRedirectPath: '/',
+  error: null,
+  isAuthenticated: false,
+  isBurgerBuilt: false,
+  loading: false,
+  onAuth: () => {},
+  onSetAuthRedirectPath: () => {},
+};
+Auth.propTypes = {
+  authRedirectPath: PropTypes.string,
+  error: PropTypes.shape({}),
+  isAuthenticated: PropTypes.bool,
+  isBurgerBuilt: PropTypes.bool,
+  loading: PropTypes.bool,
+  onAuth: PropTypes.func,
+  onSetAuthRedirectPath: PropTypes.func,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

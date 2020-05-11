@@ -1,19 +1,22 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import classes from './Order.module.css';
 
-const order = ({ ingredients, price }) => {
+const Order = ({ ingredients, price }) => {
   const ingredientsArr = [];
-  for (let ingredientsName in ingredients) {
+  Object.keys(ingredients).map((ingredientsName) => {
     ingredientsArr.push({
       name: ingredientsName,
       amount: ingredients[ingredientsName],
     });
-  }
+    return ingredientsArr;
+  });
+
   const ingredientOutput = ingredientsArr.map((ing) => {
     return (
       <span className={classes.Ingredient} key={ing.name}>
-        {ing.name} ({ing.amount})
+        {ing.name}({ing.amount})
       </span>
     );
   });
@@ -24,10 +27,19 @@ const order = ({ ingredients, price }) => {
         {ingredientOutput}
       </p>
       <p>
-        Price: <strong>£ {Number.parseFloat(price).toFixed(2)}</strong>
+        Price:
+        <strong> £{Number.parseFloat(price).toFixed(2)}</strong>
       </p>
     </div>
   );
 };
 
-export default order;
+Order.defaultProps = {
+  ingredients: null,
+  price: null,
+};
+Order.propTypes = {
+  ingredients: PropTypes.shape({}),
+  price: PropTypes.number,
+};
+export default Order;

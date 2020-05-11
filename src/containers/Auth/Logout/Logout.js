@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -16,5 +17,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => dispatch(actionCreators.logout()),
   };
+};
+
+Logout.propTypes = {
+  onLogout: PropTypes.func.isRequired,
 };
 export default connect(null, mapDispatchToProps)(Logout);

@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import classes from './Burger.module.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
-const burger = ({ ingredients }) => {
+
+const Burger = ({ ingredients }) => {
   // transform object into array in order to use map function
   // Object.keys extracts the keys of an object and turns that into an array
   let transformIngredients = Object.keys(ingredients)
@@ -30,5 +32,12 @@ const burger = ({ ingredients }) => {
     </div>
   );
 };
-
-export default burger;
+Burger.propTypes = {
+  ingredients: PropTypes.shape({
+    bacon: PropTypes.number,
+    cheese: PropTypes.number,
+    meat: PropTypes.number,
+    salad: PropTypes.number,
+  }).isRequired,
+};
+export default Burger;

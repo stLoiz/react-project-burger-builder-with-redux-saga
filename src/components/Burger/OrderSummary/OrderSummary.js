@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from '../../UI/Button/Button';
 
-const orderSummary = ({
+const OrderSummary = ({
   ingredients,
   price,
   purchasedCancelled,
@@ -12,7 +13,7 @@ const orderSummary = ({
     return (
       <li key={key}>
         {' '}
-        <span style={{ textTransform: 'capitalize' }}>{key}</span> :{' '}
+        <span style={{ textTransform: 'capitalize' }}>{key}</span>:{' '}
         {ingredients[key]}
       </li>
     );
@@ -24,7 +25,10 @@ const orderSummary = ({
       <p>A delicious burger with the following ingredients:</p>
       <ul>{ingredientSummary}</ul>
       <p>
-        <strong>Total Price: {price.toFixed(2)}</strong>
+        <strong>
+          Total Price:
+          {price.toFixed(2)}
+        </strong>
       </p>
       <p>Continue you to Checkout ? </p>
       <Button btnType="Danger" clicked={purchasedCancelled}>
@@ -37,4 +41,15 @@ const orderSummary = ({
   );
 };
 
-export default orderSummary;
+OrderSummary.propTypes = {
+  ingredients: PropTypes.shape({
+    bacon: PropTypes.number,
+    cheese: PropTypes.number,
+    meat: PropTypes.number,
+    salad: PropTypes.number,
+  }).isRequired,
+  price: PropTypes.number.isRequired,
+  purchasedCancelled: PropTypes.func.isRequired,
+  purchasedContinued: PropTypes.func.isRequired,
+};
+export default OrderSummary;

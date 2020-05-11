@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Backdrop from '../Backdrop/Backdrop';
@@ -19,7 +20,15 @@ const Modal = ({ children, show, modalClosed }) => {
     </>
   );
 };
-
+Modal.defaultProps = {
+  show: false,
+  children: null,
+};
+Modal.propTypes = {
+  children: PropTypes.node,
+  show: PropTypes.bool,
+  modalClosed: PropTypes.func.isRequired,
+};
 export default React.memo(
   Modal,
   (prevProps, nextProps) =>
