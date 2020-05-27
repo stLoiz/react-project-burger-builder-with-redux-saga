@@ -1,7 +1,6 @@
 import { put } from 'redux-saga/effects';
 
-import * as actionTypes from '../actions/actionTypes';
-
+import * as actions from '../actions';
 // this is a generator function
 export function* logoutSaga(action) {
   // the yield keyword means that each step will be executed and wait until it is finished in order to proceed with the next one
@@ -9,7 +8,5 @@ export function* logoutSaga(action) {
   yield localStorage.removeItem('expirationDate');
   yield localStorage.removeItem('userId');
   // put is going to dispatch a new action
-  yield put({
-    type: actionTypes.AUTH_LOGOUT,
-  });
+  yield put(actions.logoutSucceed());
 }
