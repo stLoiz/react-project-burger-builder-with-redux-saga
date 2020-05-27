@@ -1,21 +1,9 @@
 # Project Description
 
-The project converts an existing project the [burger-builder](https://github.com/stLoiz/react-project-burger-builder) with class based components to functional components and uses hooks.<br/>
-The main goal is to display how you can use hooks and modern features of React:
+The project is the same as the [burger-builder-with-hooks](https://github.com/stLoiz/react-project-burger-builder-with-hooks) but is using Redux Saga instead of Redux Thunk for handling asynchronous actions. <br/>
 
-- Functional components instead of class based components<br/>
-- Hooks like:
-  - useState()
-  - useEffect()
-  - useCallBack()
-- React/Redux Hooks:
-
-  - useDispatch()
-  - useSelector()
-
-- The best practices for optimization in React:
-  - React.lazy
-  - React.memo
+The reason is just to show an alternative to Redux Thunk.
+Redux Saga is package which follows a different approach of working with asynchronous code and it does not mix it with the act of dispatching actions.
 
 ### What are the main functionalities of this project?
 
