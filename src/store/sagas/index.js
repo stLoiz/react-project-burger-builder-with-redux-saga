@@ -8,6 +8,8 @@ import {
   authCheckSaga,
 } from './auth';
 
+import { initIngredientsSaga } from './burgerBuilder';
+
 export function* watchAuth() {
   // takeEvery is like a listener and will allows us to
   // listen to certain actions like here the action type AUTH_INITIATE_LOGOUT and
@@ -16,4 +18,8 @@ export function* watchAuth() {
   yield takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga);
   yield takeEvery(actionTypes.AUTH_USER, authUserSaga);
   yield takeEvery(actionTypes.AUTH_CHECK_STATE, authCheckSaga);
+}
+
+export function* watchBurgerBuilder() {
+  yield takeEvery(actionTypes.INIT_INGREDIENTS, initIngredientsSaga);
 }
