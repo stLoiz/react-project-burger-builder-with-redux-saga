@@ -1,4 +1,3 @@
-import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
 export const authStart = () => {
@@ -42,36 +41,11 @@ export const checkAuthTimeOut = (expirationTime) => {
   };
 };
 export const auth = (email, password, isSignup) => {
-  return (dispatch) => {
-    dispatch(authStart());
-    const authData = {
-      email,
-      password,
-      returnSecureToken: true,
-    };
-
-    let url = process.env.REACT_APP_FIREBASE_SIGN_UP_URL;
-
-    if (!isSignup) {
-      url = process.env.REACT_APP_FIREBASE_SIGN_IN_URL;
-    }
-
-    axios
-      .post(url, authData)
-      .then((res) => {
-        // store in local storage
-        const expirationDate = new Date(
-          new Date().getTime() + res.data.expiresIn * 1000,
-        );
-        localStorage.setItem('token', res.data.idToken);
-        localStorage.setItem('expirationDate', expirationDate);
-        localStorage.setItem('userId', res.data.localId);
-        dispatch(authSuccess(res.data.idToken, res.data.localId));
-        dispatch(checkAuthTimeOut(res.data.expiresIn));
-      })
-      .catch((error) => {
-        dispatch(authFail(error.response.data.error));
-      });
+  return {
+    type: actionTypes.AUTH_USER,
+    email,
+    password,
+    isSignup,
   };
 };
 
