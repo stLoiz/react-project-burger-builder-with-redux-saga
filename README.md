@@ -3,7 +3,7 @@
 The project is the same as the [burger-builder-with-hooks](https://github.com/stLoiz/react-project-burger-builder-with-hooks) but is using Redux Saga instead of Redux Thunk for handling asynchronous actions. <br/>
 
 The reason is just to show an alternative to Redux Thunk. <br/>
-Redux Saga is package which follows a different approach of working with asynchronous code and it does not mix it with the act of dispatching actions. <br/>
+Redux Saga is a package which follows a different approach of working with asynchronous code and it does not mix it with the act of dispatching actions. <br/>
 With Saga action creators are lean and all side effects are handled by saga and not in the actions.
 
 ### What are the main functionalities of this project?
